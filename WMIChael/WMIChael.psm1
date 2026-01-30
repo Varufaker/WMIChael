@@ -2,7 +2,7 @@
 # Constantes del modulo
 # =====================
 
-$Global:Gib = 1GB
+$Global:GiB = 1GB
 
 # =====================
 # Funciones del modulo
@@ -23,7 +23,13 @@ function Get-Domain {
 
 #Software Anti Virus
 function Get-AVSoft {
-    (Get-CimInstance -Namespace root\SecurityCenter2 -Class AntiVirusProduct).displayName
+    try {
+        $av = Get-CimInstance -Namespace root\SecurityCenter2 -Class AntiVirusProduct -ErrorAction Stop
+        if ($av) { $av.displayName -join ", " }
+        else { "No detectado" }
+    } catch {
+        "No disponible"
+    }
 }
 
 # CPU
@@ -77,6 +83,7 @@ function New-InfoLabel {
     $label = New-Object System.Windows.Forms.Label
     $label.Text = $Text
     $label.AutoSize = $true
+    $label.Margin = "0,0,0,10"
     $label.MaximumSize = New-Object System.Drawing.Size(600, 0)
     $label.Font = New-Object System.Drawing.Font("Consolas", 10)
     return $label
@@ -99,7 +106,7 @@ function New-ListView {
     }
 
     foreach ($item in $Data) {
-        $first = $item.$($Columns[0])
+        $first = $item | Select-Object -ExpandProperty $Columns[0] -ErrorAction SilentlyContinue
         $row = New-Object System.Windows.Forms.ListViewItem($first)
         foreach ($col in $Columns[1..($Columns.Count-1)]) {
             $row.SubItems.Add($item.$col)
@@ -131,4 +138,4 @@ function OnApplicationExit {
 	$script:ExitCode = 0 #Set the exit code for the Packager
 }
 
-Export-ModuleMember -Function Get-Pcname, Get-Workgroup, Get-Domain, Get-AVSoft, Get-Cpuinfo, Get-Disks, Get-Mem, New-InfoLabel, New-ListView, New-Tab, New-FlowPanel, OnApplicationExit
+Export-ModuleMember -Function Get-*, New-*, OnApplicationExit
