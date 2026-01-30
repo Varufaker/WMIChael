@@ -2,10 +2,7 @@
 # Constantes del modulo
 # =====================
 
-class HWConstants {
-    static [double]$GiB = 1GB
-    static [double]$MB  = 1MB
-}
+$Global:Gib = 1GB
 
 # =====================
 # Funciones del modulo
@@ -41,13 +38,31 @@ function Get-Cpuinfo {
         }
 }
 
+# Memorias
+function Get-Mem {
+    $memories = Get-CimInstance Win32_PhysicalMemory
+    foreach ($m in $memories) {
+        $sizeGB = [math]::Round($m.Capacity / $GiB, 2)
+        [PSCustomObject]@{
+            Banco = $m.BankLabel
+            Capacidad = "$sizeGB GiB"
+            Velocidad = "$($m.Speed) MHz"
+            Voltaje = $m.MaxVoltage
+            Modelo = $m.PartNumber
+            Fabricante = $m.Manufacturer
+            Serie = $m.SerialNumber
+        }
+    }
+}
+
 # Discos
 function Get-Disks {
 $disks = Get-CimInstance Win32_DiskDrive
 foreach ($disk in $disks) {
-    $sizeGB = [math]::Round($disk.Size / [HWConstants]::$GiB, 2)
+    $sizeGB = [math]::Round($disk.Size / $Global:GiB, 2)
     $disks_info = "$($disk.Model) - $sizeGB GB"
     }
+$disks
 }
 
-Export-ModuleMember -Function Get-Pcname, Get-Workgroup, Get-Domain, Get-AVSoft, Get-Cpuinfo, Get-Disks
+Export-ModuleMember -Function Get-Pcname, Get-Workgroup, Get-Domain, Get-AVSoft, Get-Cpuinfo, Get-Disks, Get-Mem

@@ -24,12 +24,12 @@ Add-Type -AssemblyName System.Windows.Forms
 $gui = New-Object System.Windows.Forms.Form
 $gui.Text = “WMIChael a0.1”
 $gui.Width = 720
-$gui.Height = 440
+$gui.Height = 560
 $gui.StartPosition = “CenterScreen”
 
 #Tab Control
 $tabs = New-Object System.Windows.Forms.TabControl 
-$tabs.Size = New-Object System.Drawing.Size(680,360) 
+$tabs.Size = New-Object System.Drawing.Size(680,460) 
 $tabs.Location = New-Object System.Drawing.Point(10,10)
 
     # Create Tab PC
@@ -45,31 +45,47 @@ $tabs.Location = New-Object System.Drawing.Point(10,10)
     $cpu = Get-Cpuinfo
     $labelCPU = New-Object System.Windows.Forms.Label
     $labelCPU.Text = "CPU`nNombre: $($cpu.Nombre)`nNucleos: $($cpu.Nucleos)`nHilos: $($cpu.Hilos)`nVelocidad: $($cpu.Velocidad)`nFabricante: $($cpu.Fabricante)"
-    $labelCPU.Autosize = $true
+    $labelCPU.AutoSize = $true
     $labelCPU.Location = New-Object System.Drawing.Point(20,120)
     #Adding controls to tab
     $tabPC.Controls.Add($labelPC)
     $tabPC.Controls.Add($labelCPU)
 
-    # Create Tab RAM 
-    $tabRAM = New-Object System.Windows.Forms.TabPage 
-    $tabRAM.Text = "Memorias" 
-    # RAM Tab controls 
-    $labelRAM = New-Object System.Windows.Forms.Label  
-    $labelRAM.Text = "Contenido de la pestaña Memorias"
-    $labelRAM.Autosize = $true
-    $labelRAM.Location = New-Object System.Drawing.Point(20,20)
+    # Create Tab RAM
+    $tabRam = New-Object System.Windows.Forms.TabPage
+    $tabRam.Text = "Memorias"
+    # Disks Tab controls
+    $memories = Get-Mem
+    $y = 10
+    foreach ($m in $memories) {
+        $labelram = New-Object System.Windows.Forms.Label
+        $labelram.Text = "Banco: $($m.Banco)`nCapacidad: $($m.Capacidad)`nVelocidad: $($m.Velocidad)`nVoltaje: $($m.Voltaje)`nModelo: $($m.Modelo)`nFabricante: $($m.Fabricante)`nNºSerie: $($m.Serie)"
+        $labelram.AutoSize = $true
+        $labelram.MaximumSize = New-Object System.Drawing.Size(800, 0)
+        $labelram.Location = New-Object System.Drawing.Point(20, $y)
+        $tabRam.Controls.Add($label)
+        $y += 80
+    }
     #Adding controls to tab
-    $tabRAM.Controls.Add($labelRAM)
+    $tabRam.Controls.Add($labelram)
 
     # Create Tab Disks
     $tabDisks = New-Object System.Windows.Forms.TabPage
     $tabDisks.Text = "Discos"
     # Disks Tab controls
-    $labelDisks = New-Object System.Windows.Forms.Label
-    $labelDisks.Text = "Contenido de la pestaña Discos"
-    $labelDisks.Autosize = $true
-    $labelDisks.Location = New-Object System.Drawing.Point(20,20)
+    $discos = Get-Disks
+    $y = 10
+    foreach ($d in $discos) {
+        $label = New-Object System.Windows.Forms.Label
+        $label.Text = "Nombre: $($d.Caption)`nModelo: $($d.Model)`nTamaño: $($d.Size)`nID: $($d.DeviceID)"
+        $label.AutoSize = $true
+        $label.MaximumSize = New-Object System.Drawing.Size(800, 0)
+        $label.Location = New-Object System.Drawing.Point(20, $y)
+        $tabDisks.Controls.Add($label)
+        $y += 80
+    }
+
+
     #Adding controls to tab
     $tabDisks.Controls.Add($labelDisks)
 
@@ -79,7 +95,7 @@ $tabs.Location = New-Object System.Drawing.Point(10,10)
     # Sound Tab controls
     $labelSound = New-Object System.Windows.Forms.Label
     $labelSound.Text = "Contenido de la pestaña Sonido"
-    $labelSound.Autosize = $true
+    $labelSound.AutoSize = $true
     $labelSound.Location = New-Object System.Drawing.Point(20,20)
     #Adding controls to tab
     $tabSound.Controls.Add($labelSound)
@@ -90,7 +106,7 @@ $tabs.Location = New-Object System.Drawing.Point(10,10)
     # Net Tab controls
     $labelNet = New-Object System.Windows.Forms.Label
     $labelNet.Text = "Contenido de la pestaña Red"
-    $labelNet.Autosize = $true
+    $labelNet.AutoSize = $true
     $labelNet.Location = New-Object System.Drawing.Point(20,20)
     #Adding controls to tab
     $tabNet.Controls.Add($labelNet)
@@ -101,7 +117,7 @@ $tabs.Location = New-Object System.Drawing.Point(10,10)
     # Others Tab controls
     $labelOthers = New-Object System.Windows.Forms.Label
     $labelOthers.Text = "Contenido de la pestaña Otros"
-    $labelOthers.Autosize = $true
+    $labelOthers.AutoSize = $true
     $labelOthers.Location = New-Object System.Drawing.Point(20,20)
     #Adding controls to tab
     $tabOthers.Controls.Add($labelOthers)
@@ -112,7 +128,7 @@ $tabs.Location = New-Object System.Drawing.Point(10,10)
     # Options Tab controls
     $labelOptions = New-Object System.Windows.Forms.Label
     $labelOptions.Text = "Contenido de la pestaña Opciones"
-    $labelOptions.Autosize = $true
+    $labelOptions.AutoSize = $true
     $labelOptions.Location = New-Object System.Drawing.Point(20,20)
     #Adding controls to tab
     $tabOptions.Controls.Add($labelOptions)
@@ -135,8 +151,6 @@ $tabs.Location = New-Object System.Drawing.Point(10,10)
     $exitButton.Add_Click({$gui.Close()})
 
 $gui.Controls.Add($tabs)
-$gui.Controls.Add($cpu_block)
-$gui.Controls.Add($mem_block)
 $gui.Controls.Add($exitButton)
 
 

@@ -16,7 +16,7 @@
     Description       = 'Wmichael logic module'
 
     # Functions to export
-    FunctionsToExport = @('Get-Pcname','Get-AVSoft','Get-Cpuinfo','Get-Workgroup','Get-Domain','Get-Disks')
+    FunctionsToExport = @('Get-Pcname','Get-AVSoft','Get-Cpuinfo','Get-Workgroup','Get-Domain','Get-Disks','Get-Mem')
 
     # Exported Cmdlets, variables and aliases
     CmdletsToExport   = @()
@@ -26,4 +26,3 @@
     # PowerShell minimun compatibility
     PowerShellVersion = '5.1'
 }
-
