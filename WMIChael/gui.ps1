@@ -64,10 +64,9 @@ $tabs.Location = New-Object System.Drawing.Point(10,10)
         $labelram.Font = New-Object System.Drawing.Font("Consolas", 12)
         $labelram.Text = "Banco: $($m.Banco)`nCapacidad: $($m.Capacidad)`nVelocidad: $($m.Velocidad)`nVoltaje: $($m.Voltaje)`nModelo: $($m.Modelo)`nFabricante: $($m.Fabricante)`nNºSerie: $($m.Serie)"
         $labelram.AutoSize = $true
-        $labelram.MaximumSize = New-Object System.Drawing.Size(800, 0)
         $labelram.Location = New-Object System.Drawing.Point(20, $y)
-        $tabRam.Controls.Add($label)
-        $y += 80
+        $tabRam.Controls.Add($labelram)
+        $y += 170
     }
     #Adding controls to tab
     $tabRam.Controls.Add($labelram)
@@ -86,7 +85,7 @@ $tabs.Location = New-Object System.Drawing.Point(10,10)
         $labelDisks.MaximumSize = New-Object System.Drawing.Size(800, 0)
         $labelDisks.Location = New-Object System.Drawing.Point(20, $y)
         $tabDisks.Controls.Add($labelDisks)
-        $y += 80
+        $y += 90
     }
 
 
@@ -160,3 +159,5 @@ $gui.Controls.Add($exitButton)
 
 #Load GUI
 $gui.ShowDialog()
+#Perform cleanup
+OnApplicationExit

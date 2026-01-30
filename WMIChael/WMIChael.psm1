@@ -69,4 +69,8 @@ function Get-Disks {
     }
 }
 
-Export-ModuleMember -Function Get-Pcname, Get-Workgroup, Get-Domain, Get-AVSoft, Get-Cpuinfo, Get-Disks, Get-Mem
+function OnApplicationExit {	
+	$script:ExitCode = 0 #Set the exit code for the Packager
+}
+
+Export-ModuleMember -Function Get-Pcname, Get-Workgroup, Get-Domain, Get-AVSoft, Get-Cpuinfo, Get-Disks, Get-Mem, OnApplicationExit
