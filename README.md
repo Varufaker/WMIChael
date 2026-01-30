@@ -1,6 +1,3 @@
-Author: Jony Lobeto (Varufaker)
-Company: Estudios Comet
-
 Dependencies:
 - PowerShell 5.0 or above
 - .NET Framework Core
