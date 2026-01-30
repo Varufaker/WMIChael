@@ -39,10 +39,19 @@ $tabs.Location = New-Object System.Drawing.Point(10,10)
     $flowPC = New-FlowPanel
     $tabPC.Controls.Add($flowPC)
     $text = @"
-Nombre del equipo: $(Get-Pcname)
-Grupo de Trabajo / Dominio: $(Get-Workgroup)
-Es Dominio: $(Get-Domain)
-Antivirus activo: $(Get-AVSoft)
+INFORMACION DEL SISTEMA:
+
+ Nombre del equipo: $(Get-Pcname)
+  Grupo de Trabajo: $(Get-Workgroup)
+        Es Dominio: $(Get-Domain)
+  Antivirus activo: $(Get-AVSoft)
+
+CPU:
+
+Procesador: $($(Get-Cpuinfo).Nombre)
+   Nucleos: $($(Get-Cpuinfo).Nucleos)
+     Hilos: $($(Get-Cpuinfo).Hilos)
+ Velocidad: $($(Get-Cpuinfo).Velocidad)
 "@
     $flowPC.Controls.Add( (New-InfoLabel $text) )
 
@@ -52,20 +61,34 @@ Antivirus activo: $(Get-AVSoft)
     $tabRam.Controls.Add($flowRam)
     foreach ($m in Get-Mem) {
         $text = @"
-Banco: $($m.Banco)
-Capacidad: $($m.Capacidad)
-Velocidad: $($m.Velocidad)
-Voltaje: $($m.Voltaje)
-Modelo: $($m.Modelo)
+Banco:      $($m.Banco)
+Capacidad:  $($m.Capacidad)
+Velocidad:  $($m.Velocidad)
+Voltaje:    $($m.Voltaje)
+Modelo:     $($m.Modelo)
 Fabricante: $($m.Fabricante)
-NºSerie: $($m.Serie)
+NºSerie:    $($m.Serie)
 "@
         $flowRam.Controls.Add( (New-InfoLabel $text) )
+    }
+
+    # Disks Tab
+    $tabDisk = New-Tab "Discos"
+    $listDisk = New-FlowPanel
+    $tabDisk.Controls.Add($listDisk)
+    foreach ($d in Get-Disks) {
+        $text = @"
+   Modelo:  $($d.Modelo)
+Capacidad:  $($d.Capacidad)
+       ID:  $($d.ID)
+"@
+        $listDisk.Controls.Add( (New-InfoLabel $text) )
     }
 
 # Adding tabs to TabControl
 $tabs.TabPages.Add($tabPC)
 $tabs.TabPages.Add($tabRam)
+$tabs.TabPages.Add($tabDisk)
 
 #Exit button
     $exitButton = New-Object System.Windows.Forms.Button
