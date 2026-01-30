@@ -22,76 +22,71 @@ Add-Type -AssemblyName System.Windows.Forms
 
 #Main Window
 $gui = New-Object System.Windows.Forms.Form
-$gui.Text = “WMIChael a0.1”
+$gui.Text = "WMIChael a0.1"
 $gui.Width = 720
 $gui.Height = 560
-$gui.StartPosition = “CenterScreen”
+$gui.StartPosition = "CenterScreen"
 
 #Tab Control
 $tabs = New-Object System.Windows.Forms.TabControl 
 $tabs.Size = New-Object System.Drawing.Size(680,460) 
 $tabs.Location = New-Object System.Drawing.Point(10,10)
 
-    # Create Tab PC
-    $tabPC = New-Object System.Windows.Forms.TabPage 
-    $tabPC.Text = "PC"
-    # PC Tab controls
-    #PCBlock
-    $labelPC = New-Object System.Windows.Forms.Label
-    $labelPC.Font = New-Object System.Drawing.Font("Consolas", 12)
-    $labelPC.Text = "EQUIPO`nNombre del equipo: $(Get-Pcname)`nGrupo de Trabajo: $(Get-Workgroup) | Dominio: $(Get-Domain)`n`nAntivirus: $(Get-AVSoft)"
-    $labelPC.AutoSize = $true
-    $labelPC.Location = New-Object System.Drawing.Point(20,20)
-    #CPUBlock
-    $cpu = Get-Cpuinfo
-    $labelCPU = New-Object System.Windows.Forms.Label
-    $labelCPU.Font = New-Object System.Drawing.Font("Consolas", 12)
-    $labelCPU.Text = "CPU`nNombre: $($cpu.Nombre)`nNucleos: $($cpu.Nucleos)`nHilos: $($cpu.Hilos)`nVelocidad: $($cpu.Velocidad)`nFabricante: $($cpu.Fabricante)"
-    $labelCPU.AutoSize = $true
-    $labelCPU.Location = New-Object System.Drawing.Point(20,120)
-    #Adding controls to tab
-    $tabPC.Controls.Add($labelPC)
-    $tabPC.Controls.Add($labelCPU)
+    # Create Tabs
 
-    # Create Tab RAM
-    $tabRam = New-Object System.Windows.Forms.TabPage
-    $tabRam.Text = "Memorias"
-    # Disks Tab controls
-    $memories = Get-Mem
-    $y = 10
-    foreach ($m in $memories) {
-        $labelram = New-Object System.Windows.Forms.Label
-        $labelram.Font = New-Object System.Drawing.Font("Consolas", 12)
-        $labelram.Text = "Banco: $($m.Banco)`nCapacidad: $($m.Capacidad)`nVelocidad: $($m.Velocidad)`nVoltaje: $($m.Voltaje)`nModelo: $($m.Modelo)`nFabricante: $($m.Fabricante)`nNºSerie: $($m.Serie)"
-        $labelram.AutoSize = $true
-        $labelram.Location = New-Object System.Drawing.Point(20, $y)
-        $tabRam.Controls.Add($labelram)
-        $y += 170
-    }
-    #Adding controls to tab
-    $tabRam.Controls.Add($labelram)
+    # PC Tab
+    $tabPC = New-Tab "PC"
+    $flowPC = New-FlowPanel
+    $tabPC.Controls.Add($flowPC)
+    $text = @"
+INFORMACION DEL SISTEMA:
 
-    # Create Tab Disks
-    $tabDisks = New-Object System.Windows.Forms.TabPage
-    $tabDisks.Text = "Discos"
-    # Disks Tab controls
-    $disks = Get-Disks
-    $y = 10
-    foreach ($d in $disks) {
-        $labelDisks = New-Object System.Windows.Forms.Label
-        $labelDisks.Font = New-Object System.Drawing.Font("Consolas", 12)
-        $labelDisks.Text = "Nombre: $($d.Nombre)`nModelo: $($d.Modelo)`nTamaño: $($d.Capacidad)`nID: $($d.ID)"
-        $labelDisks.AutoSize = $true
-        $labelDisks.MaximumSize = New-Object System.Drawing.Size(800, 0)
-        $labelDisks.Location = New-Object System.Drawing.Point(20, $y)
-        $tabDisks.Controls.Add($labelDisks)
-        $y += 90
+ Nombre del equipo: $(Get-Pcname)
+  Grupo de Trabajo: $(Get-Workgroup)
+        Es Dominio: $(Get-Domain)
+  Antivirus activo: $(Get-AVSoft)
+
+CPU:
+
+Procesador: $($(Get-Cpuinfo).Nombre)
+   Nucleos: $($(Get-Cpuinfo).Nucleos)
+     Hilos: $($(Get-Cpuinfo).Hilos)
+ Velocidad: $($(Get-Cpuinfo).Velocidad)
+"@
+    $flowPC.Controls.Add( (New-InfoLabel $text) )
+
+    # Memory Tab
+    $tabRam = New-Tab "Memorias"
+    $flowRam = New-FlowPanel
+    $tabRam.Controls.Add($flowRam)
+    foreach ($m in Get-Mem) {
+        $text = @"
+Banco:      $($m.Banco)
+Capacidad:  $($m.Capacidad)
+Velocidad:  $($m.Velocidad)
+Voltaje:    $($m.Voltaje)
+Modelo:     $($m.Modelo)
+Fabricante: $($m.Fabricante)
+NºSerie:    $($m.Serie)
+"@
+        $flowRam.Controls.Add( (New-InfoLabel $text) )
     }
 
+    # Disks Tab
+    $tabDisk = New-Tab "Discos"
+    $listDisk = New-FlowPanel
+    $tabDisk.Controls.Add($listDisk)
+    foreach ($d in Get-Disks) {
+        $text = @"
+   Modelo:  $($d.Modelo)
+Capacidad:  $($d.Capacidad)
+       ID:  $($d.ID)
+"@
+        $listDisk.Controls.Add( (New-InfoLabel $text) )
+    }
 
-    #Adding controls to tab
-    $tabDisks.Controls.Add($labelDisks)
-
+    ##RF##
+    
     # Create Tab Sound
     $tabSound = New-Object System.Windows.Forms.TabPage
     $tabSound.Text = "Sonido"
@@ -139,25 +134,29 @@ $tabs.Location = New-Object System.Drawing.Point(10,10)
     # Adding tabs to TabControl
     $tabs.TabPages.Add($tabPC)
     $tabs.TabPages.Add($tabRam)
-    $tabs.TabPages.Add($tabDisks)
+    $tabs.TabPages.Add($tabDisk)
     $tabs.TabPages.Add($tabSound)
     $tabs.TabPages.Add($tabNet)
     $tabs.TabPages.Add($tabOthers)
     $tabs.TabPages.Add($tabOptions)
 
-    #Exit button
+#Exit button
     $exitButton = New-Object System.Windows.Forms.Button
-    $exitButton.Text = “Cerrar”
+    $exitButton.Text = "Cerrar"
     $exitButton.Dock = "Bottom"
     
     #Events
     $exitButton.Add_Click({$gui.Close()})
 
+# Add controls to GUI
 $gui.Controls.Add($tabs)
 $gui.Controls.Add($exitButton)
 
 
 #Load GUI
 $gui.ShowDialog()
+
 #Perform cleanup
-OnApplicationExit
+$gui.Add_FormClosing({
+    OnApplicationExit
+})
