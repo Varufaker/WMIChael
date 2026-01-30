@@ -57,12 +57,16 @@ function Get-Mem {
 
 # Discos
 function Get-Disks {
-$disks = Get-CimInstance Win32_DiskDrive
-foreach ($disk in $disks) {
-    $sizeGB = [math]::Round($disk.Size / $Global:GiB, 2)
-    $disks_info = "$($disk.Model) - $sizeGB GB"
+    $disk = Get-CimInstance Win32_DiskDrive
+    foreach ($d in $disk) {
+        $sizeGB = [math]::Round($d.Size / $GiB, 2)
+        [PSCustomObject]@{
+            Nombre = $d.Caption
+            Capacidad = "$sizeGB GiB"
+            Modelo = $d.Model
+            ID = $d.DeviceID
+        }
     }
-$disks
 }
 
 Export-ModuleMember -Function Get-Pcname, Get-Workgroup, Get-Domain, Get-AVSoft, Get-Cpuinfo, Get-Disks, Get-Mem

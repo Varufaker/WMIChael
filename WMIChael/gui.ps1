@@ -37,13 +37,15 @@ $tabs.Location = New-Object System.Drawing.Point(10,10)
     $tabPC.Text = "PC"
     # PC Tab controls
     #PCBlock
-    $labelPC = New-Object System.Windows.Forms.Label 
+    $labelPC = New-Object System.Windows.Forms.Label
+    $labelPC.Font = New-Object System.Drawing.Font("Consolas", 12)
     $labelPC.Text = "EQUIPO`nNombre del equipo: $(Get-Pcname)`nGrupo de Trabajo: $(Get-Workgroup) | Dominio: $(Get-Domain)`n`nAntivirus: $(Get-AVSoft)"
     $labelPC.AutoSize = $true
     $labelPC.Location = New-Object System.Drawing.Point(20,20)
     #CPUBlock
     $cpu = Get-Cpuinfo
     $labelCPU = New-Object System.Windows.Forms.Label
+    $labelCPU.Font = New-Object System.Drawing.Font("Consolas", 12)
     $labelCPU.Text = "CPU`nNombre: $($cpu.Nombre)`nNucleos: $($cpu.Nucleos)`nHilos: $($cpu.Hilos)`nVelocidad: $($cpu.Velocidad)`nFabricante: $($cpu.Fabricante)"
     $labelCPU.AutoSize = $true
     $labelCPU.Location = New-Object System.Drawing.Point(20,120)
@@ -59,6 +61,7 @@ $tabs.Location = New-Object System.Drawing.Point(10,10)
     $y = 10
     foreach ($m in $memories) {
         $labelram = New-Object System.Windows.Forms.Label
+        $labelram.Font = New-Object System.Drawing.Font("Consolas", 12)
         $labelram.Text = "Banco: $($m.Banco)`nCapacidad: $($m.Capacidad)`nVelocidad: $($m.Velocidad)`nVoltaje: $($m.Voltaje)`nModelo: $($m.Modelo)`nFabricante: $($m.Fabricante)`nNºSerie: $($m.Serie)"
         $labelram.AutoSize = $true
         $labelram.MaximumSize = New-Object System.Drawing.Size(800, 0)
@@ -73,15 +76,16 @@ $tabs.Location = New-Object System.Drawing.Point(10,10)
     $tabDisks = New-Object System.Windows.Forms.TabPage
     $tabDisks.Text = "Discos"
     # Disks Tab controls
-    $discos = Get-Disks
+    $disks = Get-Disks
     $y = 10
-    foreach ($d in $discos) {
-        $label = New-Object System.Windows.Forms.Label
-        $label.Text = "Nombre: $($d.Caption)`nModelo: $($d.Model)`nTamaño: $($d.Size)`nID: $($d.DeviceID)"
-        $label.AutoSize = $true
-        $label.MaximumSize = New-Object System.Drawing.Size(800, 0)
-        $label.Location = New-Object System.Drawing.Point(20, $y)
-        $tabDisks.Controls.Add($label)
+    foreach ($d in $disks) {
+        $labelDisks = New-Object System.Windows.Forms.Label
+        $labelDisks.Font = New-Object System.Drawing.Font("Consolas", 12)
+        $labelDisks.Text = "Nombre: $($d.Nombre)`nModelo: $($d.Modelo)`nTamaño: $($d.Capacidad)`nID: $($d.ID)"
+        $labelDisks.AutoSize = $true
+        $labelDisks.MaximumSize = New-Object System.Drawing.Size(800, 0)
+        $labelDisks.Location = New-Object System.Drawing.Point(20, $y)
+        $tabDisks.Controls.Add($labelDisks)
         $y += 80
     }
 
@@ -135,7 +139,7 @@ $tabs.Location = New-Object System.Drawing.Point(10,10)
 
     # Adding tabs to TabControl
     $tabs.TabPages.Add($tabPC)
-    $tabs.TabPages.Add($tabRAM)
+    $tabs.TabPages.Add($tabRam)
     $tabs.TabPages.Add($tabDisks)
     $tabs.TabPages.Add($tabSound)
     $tabs.TabPages.Add($tabNet)
