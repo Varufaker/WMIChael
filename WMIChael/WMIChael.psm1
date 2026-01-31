@@ -145,6 +145,4 @@ function OnApplicationExit {
 	$script:ExitCode = 0 #Set the exit code for the Packager
 }
 
-
 Export-ModuleMember -Function T, Get-*, New-*, OnApplicationExit
-
