@@ -1,3 +1,6 @@
+Author: Jonatan Lobeto
+License: MIT License
+
 Description:
 This software uses PowerShell and Windows Forms libraries.
 It is an intend to create a WMIC replacement for console and with GUI
