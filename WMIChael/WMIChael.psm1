@@ -9,6 +9,12 @@ $Global:CurrentLang = "es"
 # Funciones del modulo
 # =====================
 
+#Función de idiomas 
+function T {
+    param([string]$Key)
+    return $Lang[$CurrentLang][$Key]
+}
+
 #Nombre del PC, Grupo de trabajo, etc
 function Get-Pcname {
     (Get-CimInstance Win32_ComputerSystem).Name
@@ -140,4 +146,5 @@ function OnApplicationExit {
 }
 
 
-Export-ModuleMember -Function Get-*, New-*, OnApplicationExit
+Export-ModuleMember -Function T, Get-*, New-*, OnApplicationExit
+
