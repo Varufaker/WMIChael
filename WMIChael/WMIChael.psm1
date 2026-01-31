@@ -177,4 +177,3 @@ function OnApplicationExit {
 }
 
 Export-ModuleMember -Function T, Get-*, New-*, OnApplicationExit
-
