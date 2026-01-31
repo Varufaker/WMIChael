@@ -2,14 +2,45 @@
 # Constantes del modulo
 # =====================
 
+#De formato de datos
 $Global:GiB = 1GB
+
+#De idiomas
 $Global:CurrentLang = "es"
+$Global:Lang = @{
+    "es" = @{
+        "PC_Name"      = "Nombre del equipo"
+        "Workgroup"    = "Grupo de trabajo / Dominio"
+        "IsDomain"     = "Es dominio"
+        "AV"           = "Antivirus activo"
+        "Bank"         = "Banco"
+        "Capacity"     = "Capacidad"
+        "Speed"        = "Velocidad"
+        "Voltage"      = "Voltaje"
+        "Model"        = "Modelo"
+        "Manufacturer" = "Fabricante"
+        "Serial"       = "Nº Serie"
+    }
+    "en" = @{
+        "PC_Name"      = "Computer name"
+        "Workgroup"    = "Workgroup / Domain"
+        "IsDomain"     = "Domain joined"
+        "AV"           = "Active antivirus"
+        "Bank"         = "Bank"
+        "Capacity"     = "Capacity"
+        "Speed"        = "Speed"
+        "Voltage"      = "Voltage"
+        "Model"        = "Model"
+        "Manufacturer" = "Manufacturer"
+        "Serial"       = "Serial number"
+    }
+}
 
 # =====================
 # Funciones del modulo
 # =====================
 
-#Función de idiomas 
+#Función de idiomas
 function T {
     param([string]$Key)
     return $Lang[$CurrentLang][$Key]
@@ -146,3 +177,4 @@ function OnApplicationExit {
 }
 
 Export-ModuleMember -Function T, Get-*, New-*, OnApplicationExit
+
