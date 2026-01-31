@@ -3,6 +3,7 @@
 # =====================
 
 $Global:GiB = 1GB
+$Global:CurrentLang = "es"
 
 # =====================
 # Funciones del modulo
@@ -137,5 +138,6 @@ function New-FlowPanel {
 function OnApplicationExit {	
 	$script:ExitCode = 0 #Set the exit code for the Packager
 }
+
 
 Export-ModuleMember -Function Get-*, New-*, OnApplicationExit
