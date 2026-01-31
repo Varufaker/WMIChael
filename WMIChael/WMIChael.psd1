@@ -25,5 +25,4 @@
 
     # PowerShell minimun compatibility
     PowerShellVersion = '5.1'
-
 }
