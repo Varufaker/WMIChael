@@ -159,5 +159,4 @@ $gui.ShowDialog()
 #Perform cleanup
 $gui.Add_FormClosing({
     OnApplicationExit
-
 })
