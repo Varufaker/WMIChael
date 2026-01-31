@@ -85,7 +85,7 @@ Capacidad:  $($d.Capacidad)
         $listDisk.Controls.Add( (New-InfoLabel $text) )
     }
 
-    ##RF##
+    ##REFACTOR FROM HERE##
     
     # Create Tab Sound
     $tabSound = New-Object System.Windows.Forms.TabPage
@@ -159,4 +159,5 @@ $gui.ShowDialog()
 #Perform cleanup
 $gui.Add_FormClosing({
     OnApplicationExit
+
 })
