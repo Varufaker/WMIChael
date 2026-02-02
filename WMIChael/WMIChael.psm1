@@ -6,11 +6,11 @@
 $Global:GiB = 1GB
 
 #De idiomas
-$Global:CurrentLang = "es"
+$Global:CurrentLang = "en"
 $Global:Lang = @{
     "es" = @{
         "PC_Name"      = "Nombre del equipo"
-        "Workgroup"    = "Grupo de trabajo / Dominio"
+        "Workgroup"    = "Grupo de trabajo"
         "IsDomain"     = "Es dominio"
         "AV"           = "Antivirus activo"
         "Bank"         = "Banco"
@@ -20,10 +20,14 @@ $Global:Lang = @{
         "Model"        = "Modelo"
         "Manufacturer" = "Fabricante"
         "Serial"       = "Nº Serie"
+        "CPU"          = "Procesador"
+        "Cores"        = "Nucleos"
+        "Threads"      = "Hilos"
+        "Phys"         = "Direccion logica"
     }
     "en" = @{
         "PC_Name"      = "Computer name"
-        "Workgroup"    = "Workgroup / Domain"
+        "Workgroup"    = "Workgroup"
         "IsDomain"     = "Domain joined"
         "AV"           = "Active antivirus"
         "Bank"         = "Bank"
@@ -33,6 +37,10 @@ $Global:Lang = @{
         "Model"        = "Model"
         "Manufacturer" = "Manufacturer"
         "Serial"       = "Serial number"
+        "CPU"          = "Processor"
+        "Cores"        = "Cores"
+        "Threads"      = "Threads"
+        "Phys"         = "Logical Address"
     }
 }
 

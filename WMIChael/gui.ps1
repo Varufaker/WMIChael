@@ -41,17 +41,17 @@ $tabs.Location = New-Object System.Drawing.Point(10,10)
     $text = @"
 INFORMACION DEL SISTEMA:
 
- Nombre del equipo: $(Get-Pcname)
-  Grupo de Trabajo: $(Get-Workgroup)
-        Es Dominio: $(Get-Domain)
-  Antivirus activo: $(Get-AVSoft)
+$(T "PC_Name"): $(Get-Pcname)
+$(T "Workgroup"):  $(Get-Workgroup)
+$(T "IsDomain"):        $(Get-Domain)
+$(T "AV"):  $(Get-AVSoft)
 
 CPU:
 
-Procesador: $($(Get-Cpuinfo).Nombre)
-   Nucleos: $($(Get-Cpuinfo).Nucleos)
-     Hilos: $($(Get-Cpuinfo).Hilos)
- Velocidad: $($(Get-Cpuinfo).Velocidad)
+$(T "CPU"): $($(Get-Cpuinfo).Nombre)
+$(T "Cores"): $($(Get-Cpuinfo).Nucleos)
+$(T "Threads"): $($(Get-Cpuinfo).Hilos)
+$(T "Speed"): $($(Get-Cpuinfo).Velocidad)
 "@
     $flowPC.Controls.Add( (New-InfoLabel $text) )
 
@@ -61,13 +61,13 @@ Procesador: $($(Get-Cpuinfo).Nombre)
     $tabRam.Controls.Add($flowRam)
     foreach ($m in Get-Mem) {
         $text = @"
-Banco:      $($m.Banco)
-Capacidad:  $($m.Capacidad)
-Velocidad:  $($m.Velocidad)
-Voltaje:    $($m.Voltaje)
-Modelo:     $($m.Modelo)
-Fabricante: $($m.Fabricante)
-NºSerie:    $($m.Serie)
+$(T "Bank"):      $($m.Banco)
+$(T "Capacity"):  $($m.Capacidad)
+$(T "Speed"):  $($m.Velocidad)
+$(T "Voltage"):    $($m.Voltaje)
+$(T "Model"):     $($m.Modelo)
+$(T "Manufacturer"): $($m.Fabricante)
+$(T "Serial"):    $($m.Serie)
 "@
         $flowRam.Controls.Add( (New-InfoLabel $text) )
     }
@@ -78,9 +78,9 @@ NºSerie:    $($m.Serie)
     $tabDisk.Controls.Add($listDisk)
     foreach ($d in Get-Disks) {
         $text = @"
-   Modelo:  $($d.Modelo)
-Capacidad:  $($d.Capacidad)
-       ID:  $($d.ID)
+$(T "Model"):  $($d.Modelo)
+$(T "Capacity"):  $($d.Capacidad)
+$(T "Phys"):  $($d.ID)
 "@
         $listDisk.Controls.Add( (New-InfoLabel $text) )
     }
