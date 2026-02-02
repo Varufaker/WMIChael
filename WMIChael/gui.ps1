@@ -56,7 +56,7 @@ $(T "Speed"): $($(Get-Cpuinfo).Velocidad)
     $flowPC.Controls.Add( (New-InfoLabel $text) )
 
     # Memory Tab
-    $tabRam = New-Tab "Memorias"
+    $tabRam = New-Tab "RAM"
     $flowRam = New-FlowPanel
     $tabRam.Controls.Add($flowRam)
     foreach ($m in Get-Mem) {
@@ -73,7 +73,7 @@ $(T "Serial"):    $($m.Serie)
     }
 
     # Disks Tab
-    $tabDisk = New-Tab "Discos"
+    $tabDisk = New-Tab "Disks"
     $listDisk = New-FlowPanel
     $tabDisk.Controls.Add($listDisk)
     foreach ($d in Get-Disks) {
@@ -84,52 +84,48 @@ $(T "Phys"):  $($d.ID)
 "@
         $listDisk.Controls.Add( (New-InfoLabel $text) )
     }
-
-    ##REFACTOR FROM HERE##
     
     # Create Tab Sound
-    $tabSound = New-Object System.Windows.Forms.TabPage
-    $tabSound.Text = "Sonido"
+    $tabSound = New-Tab "Sound"
+    $flowSound = New-FlowPanel
     # Sound Tab controls
-    $labelSound = New-Object System.Windows.Forms.Label
-    $labelSound.Text = "Contenido de la pestaña Sonido"
-    $labelSound.AutoSize = $true
-    $labelSound.Location = New-Object System.Drawing.Point(20,20)
+$text = @"
+Content
+"@
     #Adding controls to tab
-    $tabSound.Controls.Add($labelSound)
+    $flowSound.Controls.Add( (New-InfoLabel $text) )
+
 
     # Create Tab Net
-    $tabNet = New-Object System.Windows.Forms.TabPage
-    $tabNet.Text = "Red"
+    $tabNet = New-Tab "Network"
+    $flowNet = New-FlowPanel
     # Net Tab controls
-    $labelNet = New-Object System.Windows.Forms.Label
-    $labelNet.Text = "Contenido de la pestaña Red"
-    $labelNet.AutoSize = $true
-    $labelNet.Location = New-Object System.Drawing.Point(20,20)
+$text = @"
+Content
+"@
     #Adding controls to tab
-    $tabNet.Controls.Add($labelNet)
+    $flowNet.Controls.Add( (New-InfoLabel $text) )
+
 
     # Create Tab Others
-    $tabOthers = New-Object System.Windows.Forms.TabPage
-    $tabOthers.Text = "Otros"
-    # Others Tab controls
-    $labelOthers = New-Object System.Windows.Forms.Label
-    $labelOthers.Text = "Contenido de la pestaña Otros"
-    $labelOthers.AutoSize = $true
-    $labelOthers.Location = New-Object System.Drawing.Point(20,20)
+    $tabOthers = New-Tab "Others"
+    $flowOthers = New-FlowPanel
+    # Net Tab controls
+$text = @"
+Content
+"@
     #Adding controls to tab
-    $tabOthers.Controls.Add($labelOthers)
+    $flowOthers.Controls.Add( (New-InfoLabel $text) )
 
     # Create Tab Options
-    $tabOptions = New-Object System.Windows.Forms.TabPage
-    $tabOptions.Text = "Opciones"
-    # Options Tab controls
-    $labelOptions = New-Object System.Windows.Forms.Label
-    $labelOptions.Text = "Contenido de la pestaña Opciones"
-    $labelOptions.AutoSize = $true
-    $labelOptions.Location = New-Object System.Drawing.Point(20,20)
+    $tabOptions = New-Tab "Options"
+    $flowOptions = New-FlowPanel
+    # Net Tab controls
+$text = @"
+Content
+"@
     #Adding controls to tab
-    $tabOptions.Controls.Add($labelOptions)
+    $flowOptions.Controls.Add( (New-InfoLabel $text) )
 
     # Adding tabs to TabControl
     $tabs.TabPages.Add($tabPC)
