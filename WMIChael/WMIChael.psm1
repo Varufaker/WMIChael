@@ -6,9 +6,9 @@
 $Global:GiB = 1GB
 
 #De idiomas
-$Global:CurrentLang = "en"
+$Global:CurrentLang = "English"
 $Global:Lang = @{
-    "es" = @{
+    "Español" = @{
         "PC_Name"      = "Nombre del equipo"
         "Workgroup"    = "Grupo de trabajo"
         "IsDomain"     = "Es dominio"
@@ -24,8 +24,17 @@ $Global:Lang = @{
         "Cores"        = "Nucleos"
         "Threads"      = "Hilos"
         "Phys"         = "Direccion logica"
+        "Disks"        = "Discos"
+        "Sound"        = "Sonido"
+        "Network"      = "Red"
+        "Others"       = "Otros"
+        "Options"      = "Opciones"
+        "Memory"       = "Memorias"
+        "PC"           = "Ordenador"
+        "sys_info"     = "Informacion del sistema"
+        "Language"     = "Idioma"
     }
-    "en" = @{
+    "English" = @{
         "PC_Name"      = "Computer name"
         "Workgroup"    = "Workgroup"
         "IsDomain"     = "Domain joined"
@@ -41,6 +50,15 @@ $Global:Lang = @{
         "Cores"        = "Cores"
         "Threads"      = "Threads"
         "Phys"         = "Logical Address"
+        "Disks"        = "Disks"
+        "Sound"        = "Sound"
+        "Network"      = "Network"
+        "Memory"       = "Memory"
+        "Others"       = "Others"
+        "Options"      = "Options"
+        "PC"           = "Computer"
+        "sysinfo"      = "System Information"
+        "Language"     = "Language" 
     }
 }
 
@@ -55,6 +73,26 @@ function T {
     param([string]$Key)
     return $Lang[$CurrentLang][$Key]
 }
+
+function Update-LanguageUI {
+    foreach ($text in $form.Controls) {
+        Update-ControlLanguage $text
+    }
+}
+
+function Update-ControlLanguage($text) {
+    # Si el control tiene una propiedad Text, la actualizamos
+    if ($text.PC) {
+        $text.PC = T $text.PC
+    }
+    # Si el control contiene otros controles, los recorremos
+    if ($text.Controls.Count -gt 0) {
+        foreach ($child in $ctrl.Controls) {
+            Update-ControlLanguage $child
+        }
+    }
+}
+
 
 
 #Funciones de GUI#
@@ -195,4 +233,4 @@ function Get-Disks {
 }
 
 
-Export-ModuleMember -Function T, Get-*, New-*, OnApplicationExit
+Export-ModuleMember -Function T, Get-*, New-*, Update-*, OnApplicationExit

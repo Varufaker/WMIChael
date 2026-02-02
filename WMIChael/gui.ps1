@@ -35,11 +35,11 @@ $tabs.Location = New-Object System.Drawing.Point(10,10)
     # Create Tabs
 
     # PC Tab
-    $tabPC = New-Tab "PC"
+    $tabPC = New-Tab $(T "PC")
     $flowPC = New-FlowPanel
     $tabPC.Controls.Add($flowPC)
     $text = @"
-INFORMACION DEL SISTEMA:
+$(T "sysinfo")
 
 $(T "PC_Name"): $(Get-Pcname)
 $(T "Workgroup"):  $(Get-Workgroup)
@@ -56,7 +56,7 @@ $(T "Speed"): $($(Get-Cpuinfo).Velocidad)
     $flowPC.Controls.Add( (New-InfoLabel $text) )
 
     # Memory Tab
-    $tabRam = New-Tab "RAM"
+    $tabRam = New-Tab $(T "Memory")
     $flowRam = New-FlowPanel
     $tabRam.Controls.Add($flowRam)
     foreach ($m in Get-Mem) {
@@ -73,21 +73,22 @@ $(T "Serial"):    $($m.Serie)
     }
 
     # Disks Tab
-    $tabDisk = New-Tab "Disks"
-    $listDisk = New-FlowPanel
-    $tabDisk.Controls.Add($listDisk)
+    $tabDisk = New-Tab $(T "Disks")
+    $flowDisk = New-FlowPanel
+    $tabDisk.Controls.Add($flowDisk)
     foreach ($d in Get-Disks) {
         $text = @"
 $(T "Model"):  $($d.Modelo)
 $(T "Capacity"):  $($d.Capacidad)
 $(T "Phys"):  $($d.ID)
 "@
-        $listDisk.Controls.Add( (New-InfoLabel $text) )
+        $flowDisk.Controls.Add( (New-InfoLabel $text) )
     }
     
     # Create Tab Sound
-    $tabSound = New-Tab "Sound"
+    $tabSound = New-Tab $(T "Sound")
     $flowSound = New-FlowPanel
+    $tabSound.Controls.Add($flowSound)
     # Sound Tab controls
 $text = @"
 Content
@@ -97,8 +98,9 @@ Content
 
 
     # Create Tab Net
-    $tabNet = New-Tab "Network"
+    $tabNet = New-Tab $(T "Network")
     $flowNet = New-FlowPanel
+    $tabNet.Controls.Add($flowNet)
     # Net Tab controls
 $text = @"
 Content
@@ -108,9 +110,10 @@ Content
 
 
     # Create Tab Others
-    $tabOthers = New-Tab "Others"
+    $tabOthers = New-Tab $(T "Others")
     $flowOthers = New-FlowPanel
-    # Net Tab controls
+    $tabOthers.Controls.Add($flowOthers)
+    # Others Tab controls
 $text = @"
 Content
 "@
@@ -118,14 +121,36 @@ Content
     $flowOthers.Controls.Add( (New-InfoLabel $text) )
 
     # Create Tab Options
-    $tabOptions = New-Tab "Options"
+    $tabOptions = New-Tab $(T "Options")
     $flowOptions = New-FlowPanel
-    # Net Tab controls
+    # Options Tab controls
 $text = @"
 Content
 "@
-    #Adding controls to tab
+    # Language selector
+    $langbut = New-Object System.Windows.Forms.ComboBox
+    $langbut.Width = 70
+    $langbut.Height = 30
+    $langbut.Margin = '20,20,20,20'
+    $langbut.DropDownStyle = 'DropDownList'
+
+    # Items
+    $langbut.Items.Add("English")
+    $langbut.Items.Add("Español")
+
+    # Event
+    $langbut.Add_SelectedIndexChanged({
+           $script:CurrentLang = $langbut.SelectedItem
+           Update-LanguageUI
+    })
+
+    # Controls
     $flowOptions.Controls.Add( (New-InfoLabel $text) )
+    $flowOptions.Controls.Add($langbut)
+
+    # Panel to tab
+    $tabOptions.Controls.Add($flowOptions)
+
 
     # Adding tabs to TabControl
     $tabs.TabPages.Add($tabPC)
