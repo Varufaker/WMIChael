@@ -232,5 +232,27 @@ function Get-Disks {
     }
 }
 
+function Get-Audio {
+    $audio = Get-CimInstance Win32_SoundDevice
+    foreach ($a in $audio) {
+        [PSCustomObject]@{
+            Nombre = $a.Name
+            Fabricante = $a.Manufacturer
+            Status = $a.Status
+            StatusI = $a.StatusInfo
+        }
+        $audio
+    }
+}
 
-Export-ModuleMember -Function T, Get-*, New-*, Update-*, OnApplicationExit
+function Get-Net {
+    $net = "Content"
+    foreach ($n in $net) {
+        [PSCustomObject]@{
+          X = $n.X
+        }
+    $net
+    }
+}
+
+Export-ModuleMember -Function T, OnApplicationExit, Get-*, New-*, Update-*

@@ -91,7 +91,7 @@ $(T "Phys"):  $($d.ID)
     $tabSound.Controls.Add($flowSound)
     # Sound Tab controls
 $text = @"
-Content
+$(Get-Audio)
 "@
     #Adding controls to tab
     $flowSound.Controls.Add( (New-InfoLabel $text) )
@@ -103,7 +103,7 @@ Content
     $tabNet.Controls.Add($flowNet)
     # Net Tab controls
 $text = @"
-Content
+$(Get-Net)
 "@
     #Adding controls to tab
     $flowNet.Controls.Add( (New-InfoLabel $text) )

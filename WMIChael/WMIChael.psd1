@@ -16,7 +16,7 @@
     Description       = 'Wmichael logic module'
 
     # Functions to export
-    FunctionsToExport = @('T','Get-Pcname','Get-AVSoft','Get-Cpuinfo','Get-Workgroup','Get-Domain','Get-Disks','Get-Mem','New-InfoLabel','New-ListView','New-Tab','New-FlowPanel','OnApplicationExit','Update-LanguageUI','Update-ControlLanguage')
+    FunctionsToExport = @('T','OnApplicationExit','Get-*','New-*','Update-*')
 
     # Exported Cmdlets, variables and aliases
     CmdletsToExport   = @()
